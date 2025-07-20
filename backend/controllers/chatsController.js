@@ -83,6 +83,10 @@ export const newFile = async (req, res) => {
     const { userId } = req;
     const fileBuffer = req.file?.buffer;
     const { fileName } = req.body;
+    const mimeType = req.file.mimetype;
+    let resourceType = 'raw';
+    if (mimeType.startsWith('image/')) resourceType = 'image';
+    else if (mimeType.startsWith('video/')) resourceType = 'video';
     const sender = await User.findById(userId);
     const receiver = await User.findById(receiverId);
     if (!sender || !receiver) {
@@ -91,7 +95,7 @@ export const newFile = async (req, res) => {
     const folderPath = 'QuickChat/Chats';
     const uploadStream = () =>
       new Promise((resolve, reject) => {
-        const stream = cloudinary.uploader.upload_stream({ resource_type: 'raw', folder: folderPath }, (error, result) => {
+        const stream = cloudinary.uploader.upload_stream({ resource_type: resourceType, folder: folderPath }, (error, result) => {
           if (error) {
             reject(error);
           } else {

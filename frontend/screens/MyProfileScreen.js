@@ -140,7 +140,8 @@ const MyProfileScreen = () => {
                   paddingHorizontal: 20,
                   width: '100%',
                   backgroundColor: '#eee',
-                  marginBottom: 10
+                  marginBottom: 10,
+                  color: '#000'
                 }}
                 value={name}
                 onChangeText={(text) => setName(text)}
@@ -154,7 +155,8 @@ const MyProfileScreen = () => {
                   paddingHorizontal: 20,
                   width: '100%',
                   backgroundColor: '#eee',
-                  marginBottom: 10
+                  marginBottom: 10,
+                  color: '#000'
                 }}
                 value={about}
                 onChangeText={(text) => setAbout(text)}

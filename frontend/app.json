@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "QuickChat",
-    "slug": "QuickChat",
+    "slug": "QuickChat-MobileApp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
@@ -15,7 +15,8 @@
     "updates": {
       "fallbackToCacheTimeout": 0,
       "enabled": true,
-      "checkAutomatically": "ON_LOAD"
+      "checkAutomatically": "ON_LOAD",
+      "url": "https://u.expo.dev/a8b2d4a0-7d69-4a7b-be35-78ca58eb8f36"
     },
     "runtimeVersion": {
       "policy": "appVersion"
@@ -28,10 +29,17 @@
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.arpan_ks.QuickChatMobileApp"
     },
     "web": {
       "favicon": "./assets/logo.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a8b2d4a0-7d69-4a7b-be35-78ca58eb8f36"
+      }
+    },
+    "owner": "arpan_ks"
   }
 }

@@ -18,8 +18,9 @@ import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import { useSelector, useDispatch } from 'react-redux';
-import { newChat, newImage, newFile, markAsRead } from '../functions/chats';
+import { newChat, newImage, newFile, markAsRead, getChats } from '../functions/chats';
 import { socket } from '../socket';
+import { getAllUsers } from '../functions/users';
 
 const ChatScreen = ({ route, navigation }) => {
   const user = route?.params?.user || {};
@@ -34,7 +35,8 @@ const ChatScreen = ({ route, navigation }) => {
   useEffect(() => {
     if (!user?._id || !socket) return;
     const handleNewChat = (chat) => {
-      dispatch({ type: 'ADD_CHAT', payload: chat });
+      dispatch(getChats(user._id));
+      dispatch(getAllUsers());
       dispatch(markAsRead(user._id));
     };
     socket.on('newChat', handleNewChat);
@@ -104,6 +106,7 @@ const ChatScreen = ({ route, navigation }) => {
       const fileName = file.name || fileUri.split('/').pop();
       const fileExt = fileName.split('.').pop().toLowerCase();
       const mimeType = file.mimeType || `application/${fileExt}` || 'application/octet-stream';
+      console.log(fileUri, fileName, mimeType);
       const formData = new FormData();
       formData.append('fileName', fileName);
       formData.append('file', {
@@ -157,7 +160,7 @@ const ChatScreen = ({ route, navigation }) => {
               onPress={() => navigation.goBack()}
               style={{ marginRight: 10 }}
             />
-            <TouchableOpacity onPress={() => navigation.navigate('UserProfile')} style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+            <TouchableOpacity onPress={() => navigation.navigate('UserProfile', { user })} style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
               {user.profilePic ? (
                 <Image
                   source={{ uri: user.profilePic }}
@@ -223,7 +226,7 @@ const ChatScreen = ({ route, navigation }) => {
                   )}
                   {msg?.file && (
                     <TouchableOpacity onPress={() => Linking.openURL(msg.file)}>
-                      <Text>📄 {msg.fileName}</Text>
+                      <Text>📄 {msg.file}</Text>
                     </TouchableOpacity>
                   )}
                 </View>
@@ -259,6 +262,7 @@ const ChatScreen = ({ route, navigation }) => {
                 onChangeText={setMessage}
                 onFocus={() => setTyping(true)}
                 placeholder="Type a message"
+                placeholderTextColor="#888"
                 multiline
               />
               <TouchableOpacity onPress={handlePickImage} style={{ marginLeft: 10 }}>

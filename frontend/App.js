@@ -31,8 +31,12 @@ function AppInner() {
     socket.on('newUser', () => {
       dispatch(getAllUsers());
     });
+    socket.on('newChat', () => {
+      dispatch(getAllUsers());
+    })
     return () => {
       socket.off('newUser');
+      socket.off('newChat');
     };
   }, [dispatch]);
 
@@ -74,7 +78,7 @@ function AppInner() {
               )}
             </Stack.Navigator>
           </NavigationContainer>
-          <StatusBar style="auto" />
+          <StatusBar style="dark" />
         </SafeAreaView>
       </SafeAreaProvider>
     </GestureHandlerRootView>
