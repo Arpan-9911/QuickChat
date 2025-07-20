@@ -81,19 +81,21 @@ export const createAccount = async (req, res) => {
     }
     const folderPath = 'QuickChat/profilePics';
     let profilePicUrl = '';
-    const uploadStream = () =>
-      new Promise((resolve, reject) => {
-        const stream = cloudinary.uploader.upload_stream({ folder: folderPath }, (error, result) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(result);
-          }
+    if(profilePicBuffer) {
+      const uploadStream = () =>
+        new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream({ folder: folderPath }, (error, result) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(result);
+            }
+          });
+          streamifier.createReadStream(profilePicBuffer).pipe(stream);
         });
-        streamifier.createReadStream(profilePicBuffer).pipe(stream);
-      });
-    const profilePicRes = await uploadStream();
-    profilePicUrl = profilePicRes.secure_url;
+      const profilePicRes = await uploadStream();
+      profilePicUrl = profilePicRes.secure_url;
+    }
     const user = await User.create({ email, profileName, about, profilePic: profilePicUrl });
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     getIO().emit('newUser', user);
