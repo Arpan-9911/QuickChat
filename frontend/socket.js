@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client';
-const BACKEND_URL = 'http://192.168.31.128:5000';
+const BACKEND_URL = 'https://quickchat-mobileapp.onrender.com';
 
 export const socket = io(BACKEND_URL, {
   transports: ['websocket'],

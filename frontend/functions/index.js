@@ -1,7 +1,7 @@
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const API = axios.create({ baseURL: 'http://192.168.31.128:5000' })
+const API = axios.create({ baseURL: 'https://quickchat-mobileapp.onrender.com' })
 API.interceptors.request.use(async (req) => {
   const profile = await AsyncStorage.getItem('profile');
   if (profile) {

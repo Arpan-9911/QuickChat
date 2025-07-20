@@ -25,14 +25,14 @@ app.get("/", (req, res) => {
 app.use('/user', userRoute)
 app.use('/chats', chatsRoute)
 
-// const BACKEND_URL = process.env.BACKEND_URL
-// cron.schedule('*/10 * * * *', () => {
-//   https.get(BACKEND_URL, (res) => {
-//     console.log(res.statusCode)
-//   }).on('error', (err) => {
-//     console.log(err)
-//   })
-// })
+const BACKEND_URL = process.env.BACKEND_URL
+cron.schedule('*/10 * * * *', () => {
+  https.get(BACKEND_URL, (res) => {
+    console.log(res.statusCode)
+  }).on('error', (err) => {
+    console.log(err)
+  })
+})
 
 const PORT = process.env.PORT || 5000;
 mongoose
