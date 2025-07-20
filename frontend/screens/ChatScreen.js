@@ -106,7 +106,6 @@ const ChatScreen = ({ route, navigation }) => {
       const fileName = file.name || fileUri.split('/').pop();
       const fileExt = fileName.split('.').pop().toLowerCase();
       const mimeType = file.mimeType || `application/${fileExt}` || 'application/octet-stream';
-      console.log(fileUri, fileName, mimeType);
       const formData = new FormData();
       formData.append('fileName', fileName);
       formData.append('file', {
@@ -226,7 +225,7 @@ const ChatScreen = ({ route, navigation }) => {
                   )}
                   {msg?.file && (
                     <TouchableOpacity onPress={() => Linking.openURL(msg.file)}>
-                      <Text>📄 {msg.file}</Text>
+                      <Text>📄 {msg.fileName}</Text>
                     </TouchableOpacity>
                   )}
                 </View>

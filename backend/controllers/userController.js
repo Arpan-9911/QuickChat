@@ -80,6 +80,7 @@ export const createAccount = async (req, res) => {
       return res.status(400).json({ success: false, message: 'User already exists.' });
     }
     const folderPath = 'QuickChat/profilePics';
+    let profilePicUrl = '';
     const uploadStream = () =>
       new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream({ folder: folderPath }, (error, result) => {
@@ -92,7 +93,8 @@ export const createAccount = async (req, res) => {
         streamifier.createReadStream(profilePicBuffer).pipe(stream);
       });
     const profilePicRes = await uploadStream();
-    const user = await User.create({ email, profileName, about, profilePic: profilePicRes.secure_url });
+    profilePicUrl = profilePicRes.secure_url;
+    const user = await User.create({ email, profileName, about, profilePic: profilePicUrl });
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     getIO().emit('newUser', user);
     res.status(200).json({ success: true, message: 'Account created successfully', user, token });
